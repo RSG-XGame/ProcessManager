@@ -2,68 +2,48 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace ProcessManager.Logic.Logic
 {
-    public class ProcessHelper
+    public static class ProcessHelper
     {
-        private ProcessModel processModel;
-
-        public ProcessHelper(ProcessModel processModel)
+        public static ProcessModel[] GetProcessModels()
         {
-            this.processModel = processModel;
+            return Process.GetProcesses(Environment.MachineName)
+                .Select(x => new ProcessModel
+                {
+                    ProcessName = x.ProcessName,
+                    ProcessId = x.Id,
+                    PathExe = x.GetPathExe(),
+                    Arguments = x.GetArguments()
+                }
+                ).ToArray();
         }
 
-        public bool StartProcess()
+        private static string GetArguments(this Process process)
         {
-            bool result = false;
+            string result = string.Empty;
             try
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = processModel.PathExe,
-                    Arguments = processModel.Arguments
-                };
-
-                using (Process newProcess = new Process { StartInfo = startInfo })
-                {
-                    result = newProcess.Start();
-                }
+                result = process.StartInfo.Arguments;
             }
             catch
             {
-            }
-            return result; 
-        }
-
-        public bool StopProcess()
-        {
-            bool result = true;
-            try
-            {
-                using (Process proc = Process.GetProcessById(processModel.ProcessId))
-                {
-                    proc.Kill();
-                    proc.WaitForExit();
-                }
-            }
-            catch
-            {
-                result = false;
             }
             return result;
         }
-
-        public bool RestartProcess()
+        private static string GetPathExe(this Process process)
         {
-            bool result = false;
-
-            if (StopProcess())
+            string result = string.Empty;
+            try
             {
-                result = StartProcess();
+                result = process.MainModule.FileName;
             }
-
+            catch
+            {
+            }
             return result;
         }
     }

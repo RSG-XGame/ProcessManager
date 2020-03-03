@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PM.ClientConnection\PM.ClientConnection.csproj" />
+    <ProjectReference Include="..\PM.Connection\PM.Connection.csproj" />
+  </ItemGroup>
+
+</Project>

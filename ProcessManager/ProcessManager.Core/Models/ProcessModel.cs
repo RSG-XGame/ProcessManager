@@ -10,5 +10,10 @@ namespace ProcessManager.Core.Models
         public string ProcessName { get; set; }
         public string PathExe { get; set; }
         public string Arguments { get; set; }
+
+        public override string ToString()
+        {
+            return $"{ProcessId}\t{ProcessName}\t{PathExe}\t{Arguments}";
+        }
     }
 }
