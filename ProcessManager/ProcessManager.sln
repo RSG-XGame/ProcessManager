@@ -15,11 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager.Logic", "Pro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connection", "Connection", "{7D4908D8-0F5D-46ED-B885-90FAA5A9F6F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PM.ServerConnection", "PM.ServerConnection\PM.ServerConnection.csproj", "{A1833B6A-C9CA-417A-81FB-25F48F69F117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PM.ServerConnection", "PM.ServerConnection\PM.ServerConnection.csproj", "{A1833B6A-C9CA-417A-81FB-25F48F69F117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PM.ClientConnection", "PM.ClientConnection\PM.ClientConnection.csproj", "{948E9259-AF1D-405A-B314-A94FA02D6797}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PM.ClientConnection", "PM.ClientConnection\PM.ClientConnection.csproj", "{948E9259-AF1D-405A-B314-A94FA02D6797}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PM.Connection", "PM.Connection\PM.Connection.csproj", "{33BECF2E-C5A6-4886-AF16-00300C43017C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F3F62DA-4CA2-4B60-BDBC-857CF67B3EA4}"
+	ProjectSection(SolutionItems) = preProject
+		install.cmd = install.cmd
+		uninstall.cmd = uninstall.cmd
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
