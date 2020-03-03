@@ -34,7 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ProjectInstaller.Designer.cs">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServerProcessing.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -55,6 +64,29 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PM.Connection\PM.Connection.csproj">
+      <Project>{33BECF2E-C5A6-4886-AF16-00300C43017C}</Project>
+      <Name>PM.Connection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PM.ServerConnection\PM.ServerConnection.csproj">
+      <Project>{A1833B6A-C9CA-417A-81FB-25F48F69F117}</Project>
+      <Name>PM.ServerConnection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProcessManager.Core\ProcessManager.Core.csproj">
+      <Project>{12A877DC-D5B8-4686-AB10-7473FE44E033}</Project>
+      <Name>ProcessManager.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ProcessManager.Logic\ProcessManager.Logic.csproj">
+      <Project>{7421A937-1B5D-40B0-8564-F9762F852266}</Project>
+      <Name>ProcessManager.Logic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ProjectInstaller.resx">
+      <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

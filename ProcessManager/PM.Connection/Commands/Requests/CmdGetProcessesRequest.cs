@@ -5,10 +5,11 @@ using System.Text;
 
 namespace PM.Connection.Commands.Requests
 {
+    [Serializable]
     public class CmdGetProcessesRequest : CommandRequest
     {
-        public CmdGetProcessesRequest(long id, CommandTypes commandType) 
-            : base(id, commandType)
+        public CmdGetProcessesRequest(long id) 
+            : base(id, CommandTypes.GetProcessesRequest)
         {
         }
     }

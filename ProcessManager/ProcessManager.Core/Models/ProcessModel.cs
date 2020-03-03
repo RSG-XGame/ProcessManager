@@ -4,6 +4,7 @@ using System.Text;
 
 namespace ProcessManager.Core.Models
 {
+   [Serializable]
     public class ProcessModel
     {
         public int ProcessId { get; set; }

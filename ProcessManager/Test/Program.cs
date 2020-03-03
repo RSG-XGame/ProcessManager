@@ -1,4 +1,7 @@
 ﻿using PM.ClientConnection;
+using PM.Connection.Abstracts;
+using PM.Connection.Commands.Requests;
+using PM.Connection.Commands.Responses;
 using PM.ServerConnection;
 using ProcessManager.Logic.Logic;
 using System;
@@ -14,23 +17,39 @@ namespace Test
 
             using (ServerLestener server = new ServerLestener())
             {
-                server.Initialization();
+                server.Initialization(Processing);
                 server.Listen();
 
                 using (ClientConnect client = new ClientConnect())
                 {
+                    client.CommandRecived += Client_CommandRecived;
                     client.Connect();
-
+                    CmdGetProcessesRequest request = new CmdGetProcessesRequest(1);
+                    client.SendCommand(request);
 
                     Console.ReadKey();
+                    client.CommandRecived -= Client_CommandRecived;
 
                 }
 
                 server.Stop();
-
             }
+        }
 
+        private static void Client_CommandRecived(ClientConnect client, CommandBase command)
+        {
+            Console.WriteLine($"Get response {command.Id} {command.CommandType}");
+        }
 
+        static CommandResponse Processing(CommandRequest request)
+        {
+            Console.WriteLine($"Get request {request.CommandType}");
+            CommandResponse result = null;
+
+            CmdGetProcessesResponse resp = new CmdGetProcessesResponse(1, true, ProcessHelper.GetProcessModels());
+            result = resp;
+
+            return result;
         }
     }
 }

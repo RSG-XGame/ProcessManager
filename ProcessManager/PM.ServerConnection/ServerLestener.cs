@@ -1,6 +1,7 @@
 ﻿using PM.ClientConnection;
 using PM.Connection;
 using PM.Connection.Abstracts;
+using PM.Connection.Commands.Requests;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -36,7 +37,7 @@ namespace PM.ServerConnection
         {
             if (processing == null)
                 throw new ArgumentNullException("Метод обработки не может быть пустым!");
-
+            
             try
             {
                 server = new TcpListener(System.Net.IPAddress.Parse(IPAddress), Port);
@@ -118,12 +119,27 @@ namespace PM.ServerConnection
             }
         }
 
-        private void ChatClient_MessageRecived(ClientConnect client, CommandBase message)
+        private void ChatClient_MessageRecived(ClientConnect client, CommandBase command)
         {
             //ConsoleOutput.WriteLineInfo($"Получено сообщение от '{client.ClientName}'. Сообщение '{message.CreateDate}': '{message.Message}'.");
-
-            SendMessage(client, message);
+            var response = processing(command as CommandRequest)?.SerializeCommand();
+            try
+            {
+                if (response != null)
+                {
+                    byte[] metaData = BitConverter.GetBytes(response.Length);
+                    byte[] result = new byte[metaData.Length + response.Length]; 
+                    
+                    Array.Copy(metaData, 0, result, 0, metaData.Length);
+                    Array.Copy(response, 0, result, metaData.Length, response.Length);
+                    client.Stream.Write(result, 0, result.Length);
+                }
+            }
+            catch
+            {
+            }
         }
+            
 
         private void SendMessage(ClientConnect client, CommandBase message)
         {

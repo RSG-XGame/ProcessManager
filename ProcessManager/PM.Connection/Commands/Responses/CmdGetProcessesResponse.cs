@@ -6,15 +6,16 @@ using System.Text;
 
 namespace PM.Connection.Commands.Responses
 {
+    [Serializable]
     public class CmdGetProcessesResponse : CommandResponse
     {
         private ProcessModel[] processes;
 
         public ProcessModel[] Processes => processes;
 
-        public CmdGetProcessesResponse(long id, CommandTypes commandType, bool success,
+        public CmdGetProcessesResponse(long id, bool success,
             ProcessModel[] processes) 
-            : base(id, commandType, success)
+            : base(id, CommandTypes.GetProcessesResponse, success)
         {
             this.processes = processes;
         }

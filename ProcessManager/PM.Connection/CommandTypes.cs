@@ -6,9 +6,13 @@ namespace PM.Connection
 {
     public enum CommandTypes
     {
-        GetProcesses,
-        KillProcesse,
-        RestartProcesse,
-        StartProcesses,
+        GetProcessesRequest,
+        KillProcesseRequest,
+        RestartProcesseRequest,
+        StartProcessesRequest,
+        GetProcessesResponse,
+        KillProcesseResponse,
+        RestartProcesseResponse,
+        StartProcessesResponse,
     }
 }

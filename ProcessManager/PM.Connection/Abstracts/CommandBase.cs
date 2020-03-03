@@ -4,6 +4,7 @@ using System.Text;
 
 namespace PM.Connection.Abstracts
 {
+    [Serializable]
     public abstract class CommandBase
     {
         private long id;

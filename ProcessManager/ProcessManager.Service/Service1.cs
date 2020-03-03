@@ -12,17 +12,22 @@ namespace ProcessManager.Service
 {
     public partial class Service1 : ServiceBase
     {
+        private ServerProcessing processing;
+
         public Service1()
         {
             InitializeComponent();
+            processing = new ServerProcessing();
         }
 
         protected override void OnStart(string[] args)
         {
+            processing.Start();
         }
 
         protected override void OnStop()
         {
+            processing.Stop();
         }
     }
 }

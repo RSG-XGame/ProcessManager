@@ -1,5 +1,7 @@
 ﻿using PM.Connection;
 using PM.Connection.Abstracts;
+using PM.Connection.Commands.Requests;
+using PM.Connection.Commands.Responses;
 using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -13,7 +15,6 @@ namespace PM.ClientConnection
     {
         private object clientLocker;
         private CancellationTokenSource cancelRecivingMessageg;
-
 
         public delegate void CommandRecivedHandle(ClientConnect client, CommandBase command);
         public delegate void ClientConnectedHandle(ClientConnect client);
@@ -58,6 +59,7 @@ namespace PM.ClientConnection
                 try
                 {
                     Client.Connect(IPAddressServer, PortServer);
+                    ClientConnected?.Invoke(this);
                     Listen();
                 }
                 catch (Exception ex)
@@ -102,16 +104,18 @@ namespace PM.ClientConnection
             {
                 try
                 {
-                    byte[] buffer = new byte[8096];
+                    byte[] buffer = new byte[4];
                     int len = Stream.Read(buffer, 0, buffer.Length);
                     if (len > 0)
                     {
+                        int bufferLength = BitConverter.ToInt32(buffer, 0);
+                        CommandTypes commandType = (CommandTypes)BitConverter.ToInt32(buffer, 4);
+                        buffer = new byte[bufferLength];
+                        Stream.Read(buffer, 0, buffer.Length);
+
                         lock (clientLocker)
                         {
-                            byte[] data = new byte[len];
-                            Array.Copy(buffer, 0, data, 0, len);
-
-                            CommandBase command = data.DeserializeCommand<CommandBase>();
+                            CommandBase command = buffer.DeserializeCommand();
                             CommandRecived?.Invoke(this, command);
                         }
                     }
@@ -127,14 +131,18 @@ namespace PM.ClientConnection
         {
             if (disposedValue)
                 return;
-            if (disposedValue)
-                return;
             byte[] buffer = command.SerializeCommand();
             lock (clientLocker)
             {
                 try
                 {
-                    Stream.Write(buffer, 0, buffer.Length);
+                    byte[] metaData = BitConverter.GetBytes(buffer.Length);
+                    byte[] result = new byte[metaData.Length + buffer.Length];
+
+                    Array.Copy(metaData, 0, result, 0, metaData.Length);
+                    Array.Copy(buffer, 0, result, metaData.Length, buffer.Length);
+
+                    Stream.Write(result, 0, result.Length);
                 }
                 catch (Exception ex)
                 {

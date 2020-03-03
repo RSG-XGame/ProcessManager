@@ -5,6 +5,7 @@ using System.Text;
 
 namespace PM.Connection.Commands.Responses
 {
+    [Serializable]
     public class CmdProcessResponse : CommandResponse
     {
         public CmdProcessResponse(long id, CommandTypes commandType, bool success) 

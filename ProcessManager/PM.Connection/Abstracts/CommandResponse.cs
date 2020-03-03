@@ -4,6 +4,7 @@ using System.Text;
 
 namespace PM.Connection.Abstracts
 {
+    [Serializable]
     public abstract class CommandResponse : CommandBase
     {
         private bool success;

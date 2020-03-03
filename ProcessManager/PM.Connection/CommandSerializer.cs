@@ -19,10 +19,9 @@ namespace PM.Connection
             }
         }
 
-        public static T DeserializeCommand<T>(this byte[] data)
-            where T : CommandBase
+        public static CommandBase DeserializeCommand(this byte[] data)
         {
-            T result;
+            CommandBase result;
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             using (MemoryStream stream = new MemoryStream())
             {
@@ -30,7 +29,7 @@ namespace PM.Connection
                 stream.Seek(0, SeekOrigin.Begin);
                 try
                 {
-                    result = (T)binaryFormatter.Deserialize(stream);
+                    result = (CommandBase)binaryFormatter.Deserialize(stream);
                 }
                 catch
                 {
