@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace ProcessManager.Logic.Logic
@@ -23,7 +24,7 @@ namespace ProcessManager.Logic.Logic
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
                     FileName = processModel.PathExe,
-                    Arguments = processModel.Arguments
+                    Arguments = processModel.Arguments,
                 };
 
                 using (Process newProcess = new Process { StartInfo = startInfo })
@@ -42,10 +43,15 @@ namespace ProcessManager.Logic.Logic
             bool result = true;
             try
             {
-                using (Process proc = Process.GetProcessById(processModel.ProcessId))
+                var model = CheckModel();
+
+                if (model != null)
                 {
-                    proc.Kill();
-                    proc.WaitForExit();
+                    using (Process proc = Process.GetProcessById(model.ProcessId))
+                    {
+                        proc.Kill();
+                        proc.WaitForExit();
+                    }
                 }
             }
             catch
@@ -64,6 +70,17 @@ namespace ProcessManager.Logic.Logic
                 result = StartProcess();
             }
 
+            return result;
+        }
+
+        private ProcessModel CheckModel()
+        {
+            ProcessModel result = processModel;
+            if (result.ProcessId == -1)
+            {
+                result = ProcessHelper.GetProcessModels()
+                    .FirstOrDefault(x => x.PathExe == processModel.PathExe || x.ProcessName == processModel.ProcessName);
+            }
             return result;
         }
     }

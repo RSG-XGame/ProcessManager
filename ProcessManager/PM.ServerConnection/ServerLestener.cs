@@ -135,15 +135,9 @@ namespace PM.ServerConnection
                     client.Stream.Write(result, 0, result.Length);
                 }
             }
-            catch
+            catch 
             {
             }
-        }
-            
-
-        private void SendMessage(ClientConnect client, CommandBase message)
-        {
-            
         }
 
         #region IDisposable Support

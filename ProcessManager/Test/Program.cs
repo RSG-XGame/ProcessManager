@@ -20,17 +20,7 @@ namespace Test
                 server.Initialization(Processing);
                 server.Listen();
 
-                using (ClientConnect client = new ClientConnect())
-                {
-                    client.CommandRecived += Client_CommandRecived;
-                    client.Connect();
-                    CmdGetProcessesRequest request = new CmdGetProcessesRequest(1);
-                    client.SendCommand(request);
-
-                    Console.ReadKey();
-                    client.CommandRecived -= Client_CommandRecived;
-
-                }
+                Console.ReadKey();
 
                 server.Stop();
             }

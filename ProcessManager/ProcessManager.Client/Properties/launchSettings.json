@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "ProcessManager.Client": {
+      "commandName": "Project"
+    }
+  }
+}

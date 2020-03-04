@@ -30,10 +30,10 @@ namespace ProcessManager.Service
             listener.Initialization(Processing);
         
             mapMethods = new Dictionary<CommandTypes, MethodInfo>();
-            mapMethods.Add(CommandTypes.GetProcessesRequest, GetType().GetMethod(nameof(GetProcesses)));
-            mapMethods.Add(CommandTypes.StartProcessesRequest, GetType().GetMethod(nameof(StartProcess)));
-            mapMethods.Add(CommandTypes.KillProcesseRequest, GetType().GetMethod(nameof(KillProcess)));
-            mapMethods.Add(CommandTypes.RestartProcesseRequest, GetType().GetMethod(nameof(RestartProcess)));
+            mapMethods.Add(CommandTypes.GetProcessesRequest, GetType().GetMethod("GetProcesses"));
+            mapMethods.Add(CommandTypes.StartProcessesRequest, GetType().GetMethod("StartProcess"));
+            mapMethods.Add(CommandTypes.KillProcesseRequest, GetType().GetMethod("KillProcess"));
+            mapMethods.Add(CommandTypes.RestartProcesseRequest, GetType().GetMethod("RestartProcess"));
         }
 
         public void Start()
@@ -48,15 +48,16 @@ namespace ProcessManager.Service
 
         private CommandResponse Processing(CommandRequest request)
         {
-            return (CommandResponse)mapMethods[request.CommandType].Invoke(this, new object[] { request });
+            var method = mapMethods[request.CommandType];
+            return (CommandResponse)method.Invoke(this, new object[] { request });
         }
-        
-        private CmdGetProcessesResponse GetProcesses(CmdProcessRequest request)
+
+        public CmdGetProcessesResponse GetProcesses(CmdGetProcessesRequest request)
         {
             return new CmdGetProcessesResponse(request.Id, false, ProcessHelper.GetProcessModels());
         }
 
-        private CmdProcessResponse KillProcess(CmdProcessRequest request)
+        public CmdProcessResponse KillProcess(CmdProcessRequest request)
         {
             CmdProcessResponse response = null;
             try
@@ -76,7 +77,7 @@ namespace ProcessManager.Service
             return response;
         }
 
-        private CmdProcessResponse StartProcess(CmdProcessRequest request)
+        public CmdProcessResponse StartProcess(CmdProcessRequest request)
         {
             CmdProcessResponse response = null;
             try
@@ -96,7 +97,7 @@ namespace ProcessManager.Service
             return response;
         }
 
-        private CmdProcessResponse RestartProcess(CmdProcessRequest request)
+        public CmdProcessResponse RestartProcess(CmdProcessRequest request)
         {
             CmdProcessResponse response = null;
             try

@@ -14,12 +14,17 @@ namespace ProcessManager.Service
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
-            {
-                new Service1()
-            };
-            ServiceBase.Run(ServicesToRun);
+            ServerProcessing proc = new ServerProcessing();
+            proc.Start();
+            Console.ReadKey();
+            proc.Stop();
+
+            //ServiceBase[] ServicesToRun;
+            //ServicesToRun = new ServiceBase[]
+            //{
+            //    new Service1()
+            //};
+            //ServiceBase.Run(ServicesToRun);
         }
     }
 }

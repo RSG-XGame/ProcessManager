@@ -59,7 +59,6 @@ namespace PM.ClientConnection
                 try
                 {
                     Client.Connect(IPAddressServer, PortServer);
-                    ClientConnected?.Invoke(this);
                     Listen();
                 }
                 catch (Exception ex)
@@ -71,7 +70,7 @@ namespace PM.ClientConnection
         public void Listen(bool waitFirstMessage = false)
         {
             IsFirstMessage = waitFirstMessage;
-
+            ClientConnected?.Invoke(this);
             if (cancelRecivingMessageg == null || cancelRecivingMessageg.IsCancellationRequested)
             {
                 cancelRecivingMessageg = new CancellationTokenSource();
@@ -104,19 +103,25 @@ namespace PM.ClientConnection
             {
                 try
                 {
-                    byte[] buffer = new byte[4];
-                    int len = Stream.Read(buffer, 0, buffer.Length);
-                    if (len > 0)
+                    if (!Client.Connected)
                     {
-                        int bufferLength = BitConverter.ToInt32(buffer, 0);
-                        CommandTypes commandType = (CommandTypes)BitConverter.ToInt32(buffer, 4);
-                        buffer = new byte[bufferLength];
-                        Stream.Read(buffer, 0, buffer.Length);
-
-                        lock (clientLocker)
+                        Reconnect();
+                    }
+                    else
+                    {
+                        byte[] buffer = new byte[4];
+                        int len = Stream.Read(buffer, 0, buffer.Length);
+                        if (len > 0)
                         {
-                            CommandBase command = buffer.DeserializeCommand();
-                            CommandRecived?.Invoke(this, command);
+                            int bufferLength = BitConverter.ToInt32(buffer, 0);
+                            buffer = new byte[bufferLength];
+                            Stream.Read(buffer, 0, buffer.Length);
+
+                            lock (clientLocker)
+                            {
+                                CommandBase command = buffer.DeserializeCommand();
+                                CommandRecived?.Invoke(this, command);
+                            }
                         }
                     }
                 }
@@ -127,27 +132,45 @@ namespace PM.ClientConnection
             }
         }
 
-        public void SendCommand(CommandRequest command)
+        public bool SendCommand(CommandRequest command)
         {
+            bool result = false;
             if (disposedValue)
-                return;
+                return result;
             byte[] buffer = command.SerializeCommand();
             lock (clientLocker)
             {
                 try
                 {
+                    if (!Client.Connected)
+                    {
+                        Reconnect();
+                    }
+
                     byte[] metaData = BitConverter.GetBytes(buffer.Length);
-                    byte[] result = new byte[metaData.Length + buffer.Length];
+                    byte[] resultBuffer = new byte[metaData.Length + buffer.Length];
 
-                    Array.Copy(metaData, 0, result, 0, metaData.Length);
-                    Array.Copy(buffer, 0, result, metaData.Length, buffer.Length);
+                    Array.Copy(metaData, 0, resultBuffer, 0, metaData.Length);
+                    Array.Copy(buffer, 0, resultBuffer, metaData.Length, buffer.Length);
 
-                    Stream.Write(result, 0, result.Length);
+                    Stream.Write(resultBuffer, 0, resultBuffer.Length);
+                    result = true;
                 }
                 catch (Exception ex)
                 {
                     //ConsoleOutput.WriteLineError($"Ошибка при отправки сообщения '{ex}'");
                 }
+            }
+            return result;
+        }
+
+        private void Reconnect()
+        {
+            lock (clientLocker)
+            {
+                Client.Close();
+                Client = new TcpClient();
+                Client.Connect(IPAddressServer, PortServer);
             }
         }
 

@@ -11,7 +11,7 @@ namespace ProcessManager.Logic.Logic
     {
         public static ProcessModel[] GetProcessModels()
         {
-            return Process.GetProcesses(Environment.MachineName)
+            return Process.GetProcesses()
                 .Select(x => new ProcessModel
                 {
                     ProcessName = x.ProcessName,
@@ -19,7 +19,9 @@ namespace ProcessManager.Logic.Logic
                     PathExe = x.GetPathExe(),
                     Arguments = x.GetArguments()
                 }
-                ).ToArray();
+                )
+                //.Where(x => !string.IsNullOrEmpty(x.PathExe))
+                .ToArray();
         }
 
         private static string GetArguments(this Process process)

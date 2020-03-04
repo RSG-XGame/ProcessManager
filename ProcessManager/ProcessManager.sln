@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager.Core", "Proc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{2FE9CAFC-75E6-4767-90F9-6A51ED5DCD7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager.Client", "ProcessManager.Client\ProcessManager.Client.csproj", "{01E3BC57-6A0F-4BF8-810E-E3ED7B7DE454}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessManager.Service", "ProcessManager.Service\ProcessManager.Service.csproj", "{6C53BFFA-B1F2-4B4A-B1F3-3A7CA2FA6067}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager.Logic", "ProcessManager.Logic\ProcessManager.Logic.csproj", "{7421A937-1B5D-40B0-8564-F9762F852266}"
@@ -25,7 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		install.cmd = install.cmd
 		uninstall.cmd = uninstall.cmd
+		Инструкция.txt = Инструкция.txt
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProcessManager.Client", "ProcessManager.Client\ProcessManager.Client.csproj", "{E2D1069D-BB54-4A95-824A-689630080C4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +42,6 @@ Global
 		{2FE9CAFC-75E6-4767-90F9-6A51ED5DCD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE9CAFC-75E6-4767-90F9-6A51ED5DCD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE9CAFC-75E6-4767-90F9-6A51ED5DCD7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01E3BC57-6A0F-4BF8-810E-E3ED7B7DE454}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01E3BC57-6A0F-4BF8-810E-E3ED7B7DE454}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01E3BC57-6A0F-4BF8-810E-E3ED7B7DE454}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01E3BC57-6A0F-4BF8-810E-E3ED7B7DE454}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6C53BFFA-B1F2-4B4A-B1F3-3A7CA2FA6067}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6C53BFFA-B1F2-4B4A-B1F3-3A7CA2FA6067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C53BFFA-B1F2-4B4A-B1F3-3A7CA2FA6067}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -65,6 +62,10 @@ Global
 		{33BECF2E-C5A6-4886-AF16-00300C43017C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33BECF2E-C5A6-4886-AF16-00300C43017C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33BECF2E-C5A6-4886-AF16-00300C43017C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2D1069D-BB54-4A95-824A-689630080C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2D1069D-BB54-4A95-824A-689630080C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2D1069D-BB54-4A95-824A-689630080C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2D1069D-BB54-4A95-824A-689630080C4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
